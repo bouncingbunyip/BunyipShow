@@ -1,0 +1,18 @@
+# IDE and Build folders
+bin/
+obj/
+.vscode/
+
+# Test/Scaffolding
+ImageGenerator/
+ProjectSpec.md
+Resume.md
+Tests/
+Scratch.txt
+
+# Personal Config (Don't leak your file paths!)
+config.json
+*.log
+
+# User-specific settings
+*.user

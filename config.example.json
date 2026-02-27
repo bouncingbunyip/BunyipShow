@@ -1,0 +1,40 @@
+{
+    "Paths": {
+        "ImageRootFolder": "C:\\path\\to\\photos"
+    },
+    "DisplayDurationSeconds": 15,
+    "DisplayOrder": "random",
+    "BackgroundColor": "#000000",
+    "Overlay": {
+        "ShowPath": true,
+        "FontFamily": "Segoe UI",
+        "FontSize": 16,
+        "FontColor": "#FFFFFF"
+    },
+    "Clock": {
+        "ShowTime": true,
+        "FontFamily": "Segoe UI",
+        "FontSize": 24,
+        "FontColor": "#FFFFFF"
+    },
+    "MouseExitThresholdPixels": 10,
+    "PreloadImages": 3,
+    "MaxIndividualImageSizeMB": 64,
+    "MaxImageMemoryMB": 256,
+    "MaxScannedFiles": 10000,
+    "ImageFilters": {
+        "MinWidth": 1920,
+        "MaxWidth": 4000,
+        "MinHeight": 1080,
+        "MaxHeight": 4000,
+        "MinFileSizeKB": 500,
+        "MaxFileSizeKB": 10000,
+        "FilenameIncludeRegex": "DSC_.*",
+        "FilenameExcludeRegex": ".*_thumb"
+    },
+    "FolderFilters": {
+        "IncludeRegex": "202[3-4]",
+        "ExcludeRegex": "Temp|Private"
+    },
+    "EnableLogging": true
+}
