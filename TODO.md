@@ -21,10 +21,11 @@
     The Issue: By cloning the bitmap, the code is creating a second copy of the same image in RAM. Since the original is already in the PreloadBuffer, this effectively doubles the memory usage for that slide.
     The Fix: Assign the bitmap directly without cloning. Just don't dispose of the PreloadImage object until the next slide is ready to be shown.
 ---
-- ## Efficient Randomization
+- ## Efficient Randomization - DONE
     Your current shuffling logic in GetNextImagePath uses `.OrderBy(x => _rng.Next())`.
     The Issue: This "Linq Shuffle" is easy to write but inefficient for large lists because it creates many temporary objects for the garbage collector to clean up.
     The Better Way: Use a Fisher-Yates Shuffle to reorder your _images list in-place once, then simply iterate through it sequentially.
+    This should be complete now.
 ---
 - ## ConcurrentQueue
     In PreloadBuffer.cs, change `Queue<PreloadImage>` to `ConcurrentQueue<PreloadImage>`
@@ -54,8 +55,20 @@ Consider adding a Regex Timeout. This prevents a "Malicious" folder name from ca
 - ## Preview image
    The little preview window/screen shown in Screen Saver Settings should show the preview.png file (if possible)
 ---
-- ## Filter out non-images
-   Files that start with '._' should be filtered out and not loaded.
+- ## Filter out non-images which have supported file extensions.
+   For example, Files that start with '._' should be filtered out and not loaded.
 ---
 - ## Possible stutter
    When the preload buffer runs out, and code starts refilling buffer, there might be a stutter in the display of the images.  Once I have seen the "wait" cursor between images, and the images being displayed are fairly small (not more than 500KB)
+---
+- ## Ensure purging old logs
+   Logs that are older than XX days should be deleted.  Ensure that they are.
+---
+- ## What happens when two folders have images with the same file names?
+---
+- ## Multiple image folders
+    Currently we only load iamges from one folder.  Add support to load from multiple folders.
+    config.json has something like:
+    `"ImageRootFolder": "E:\\path\\to\\images"`
+    to something like: 
+    `"ImageRootFolder": "C:\\path\\to\\images, C:\\anotherPath\\to\\images"`

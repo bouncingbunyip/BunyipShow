@@ -21,10 +21,10 @@ namespace BunyipShow
         private bool _isLoaded = false;
 
         // Randomization / sequential
-        private List<string> _randomQueue = new();
         private int _sequentialIndex = 0;
         private bool IsRandom => string.Equals(_config.DisplayOrder, "random", StringComparison.OrdinalIgnoreCase);
         private readonly Random _rng = new Random();
+        private readonly List<string> _playList;
 
         public SlideshowForm(Config config, List<string> images, bool isPreviewMode = false)
         {
@@ -36,6 +36,16 @@ namespace BunyipShow
 
             _config = config;
             _images = images ?? new List<string>();
+            if (IsRandom && _images.Count > 0)
+            {
+                // Shuffled version for Random mode
+                _playList = _images.OrderBy(x => _rng.Next()).ToList();
+            }
+            else
+            {
+                // Exact copy for Sequential mode
+                _playList = new List<string>(_images);
+            }
             _isPreviewMode = isPreviewMode;
 
             // Initialize mouse baseline immediately
@@ -124,27 +134,14 @@ namespace BunyipShow
 
         private string? GetNextImagePath()
         {
-            if (_images.Count == 0) return null;
+            if (_playList.Count == 0) return null;
 
-            if (IsRandom)
-            {
-                if (_randomQueue.Count == 0)
-                {
-                    // refill and shuffle
-                    _randomQueue = _images.ToList();
-                    _randomQueue = _randomQueue.OrderBy(x => _rng.Next()).ToList();
-                }
-
-                string next = _randomQueue[0];
-                _randomQueue.RemoveAt(0);
-                return next;
-            }
-            else
-            {
-                string next = _images[_sequentialIndex % _images.Count];
-                _sequentialIndex++;
-                return next;
-            }
+            // This works for both modes now! 
+            // If it's sequential, _playList is ABC. 
+            // If it's random, _playList is BCA.
+            string next = _playList[_sequentialIndex % _playList.Count];
+            _sequentialIndex++;
+            return next;
         }
 
         private void ShowNextImage()

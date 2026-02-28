@@ -36,6 +36,21 @@ namespace BunyipShow
                 var images = ImageLoader.ScanImages(config);
                 Logger.Log($"Found {images.Count} images in {config.Paths.ImageRootFolder}.");
 
+                if (string.Equals(config.DisplayOrder, "random", StringComparison.OrdinalIgnoreCase) && images.Count > 0)
+                {
+                    Logger.Log("Executing Fisher-Yates shuffle for maximum randomization.");
+                    var rng = new Random();
+                    int n = images.Count;
+                    while (n > 1)
+                    {
+                        n--;
+                        int k = rng.Next(n + 1);
+                        var value = images[k];
+                        images[k] = images[n];
+                        images[n] = value;
+                    }
+                }
+
                 if (images.Count == 0)
                 {
                     Logger.Log("No images found. Exiting.");

@@ -56,13 +56,14 @@ namespace BunyipShow.Core
 
             try
             {
-                // FIX: Use EnumerateFiles to avoid loading 700,000 strings into memory at once
+                // We have to load all elegible images and then shuffle on them otherwise
+                // the slideshow only loads the first N folders until the target number of images
+                // is loaded.  Which means we don't get random display over the entire image set
+                // just the first part of the image set
                 var fileQuery = Directory.EnumerateFiles(root, "*.*", SearchOption.AllDirectories);
 
                 foreach (var file in fileQuery)
                 {
-                    // Stop once we've found enough ELIGIBLE images
-                    if (images.Count >= maxFiles) break;
 
                     if (!SupportedExtensions.Contains(Path.GetExtension(file)))
                         continue;
