@@ -4,9 +4,14 @@ The following settings are available in `config.json`. The file should be locate
 
 ### Paths
 
-* **`Paths:ImageRootFolder`** (string)
-The root directory where the image search begins.
-*Example:* `"Paths": { "ImageRootFolder": "C:\\Path\\To\\Photos" }`
+* **`ImageSourceFolder`** (string)
+The one or more directories where the image scan looks for images.
+    
+    Examples:
+    
+    `"ImageSourceFolder": [ "C:\\Path\\To\\Photos" ]`
+    
+    `"ImageSourceFolder": [ "C:\\Path\\To\\Photos", "C:\\Path\\To\\AdditionalPhotos" ]`
 
 ### Display Settings
 

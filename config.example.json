@@ -1,7 +1,8 @@
 {
-    "Paths": {
-        "ImageRootFolder": "C:\\path\\to\\photos"
-    },
+    "ImageSourceFolder": [
+        "C:\\path\\to\\photos",
+        "C:\\another\\path\\to\\images"
+    ],
     "DisplayDurationSeconds": 15,
     "DisplayOrder": "random",
     "BackgroundColor": "#000000",

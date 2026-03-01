@@ -4,8 +4,8 @@ namespace BunyipShow.Core;
 
 public class Config
 {
-    // Paths
-    public PathsConfig Paths { get; set; } = new();
+    // Image Source Folder(s)
+    public List<string> ImageSourceFolder { get; set; } = new();
 
     // Display options
     public int DisplayDurationSeconds { get; set; } = 15;
@@ -30,11 +30,6 @@ public class Config
 
     // Logging
     public bool EnableLogging { get; set; } = true;
-}
-
-public class PathsConfig
-{
-    public string ImageRootFolder { get; set; } = "";
 }
 
 public class OverlayConfig

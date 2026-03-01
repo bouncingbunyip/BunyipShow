@@ -34,7 +34,8 @@ namespace BunyipShow
                 Logger.Log($"Config loaded successfully from {configPath}.");
 
                 var images = ImageLoader.ScanImages(config);
-                Logger.Log($"Found {images.Count} images in {config.Paths.ImageRootFolder}.");
+                string folderList = string.Join(", ", config.ImageSourceFolder);
+                Logger.Log($"Found {images.Count} images in: {folderList}");
 
                 if (string.Equals(config.DisplayOrder, "random", StringComparison.OrdinalIgnoreCase) && images.Count > 0)
                 {

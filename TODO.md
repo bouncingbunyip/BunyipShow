@@ -55,8 +55,10 @@ Consider adding a Regex Timeout. This prevents a "Malicious" folder name from ca
 - ## Preview image
    The little preview window/screen shown in Screen Saver Settings should show the preview.png file (if possible)
 ---
-- ## Filter out non-images which have supported file extensions.
+- ## Filter out non-images which have supported file extensions. - DONE
    For example, Files that start with '._' should be filtered out and not loaded.
+   Implemented in 460f6e2
+
 ---
 - ## Possible stutter
    When the preload buffer runs out, and code starts refilling buffer, there might be a stutter in the display of the images.  Once I have seen the "wait" cursor between images, and the images being displayed are fairly small (not more than 500KB)

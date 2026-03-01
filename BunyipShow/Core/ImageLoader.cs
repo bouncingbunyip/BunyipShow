@@ -43,45 +43,50 @@ namespace BunyipShow.Core
         public static List<string> ScanImages(Config config)
         {
             var images = new List<string>();
-            string root = config.Paths?.ImageRootFolder ?? "";
+
+            var sources = config.ImageSourceFolder ?? new List<string>();
+
             int maxFiles = config.MaxScannedFiles > 0 ? config.MaxScannedFiles : 1000;
 
-            Logger.Log($"Scanning images in folder: {root}");
-
-            if (!Directory.Exists(root))
+            foreach (var root in sources)
             {
-                Logger.Log($"Image folder does not exist: {root}");
-                return images;
-            }
 
-            try
-            {
-                // We have to load all elegible images and then shuffle on them otherwise
-                // the slideshow only loads the first N folders until the target number of images
-                // is loaded.  Which means we don't get random display over the entire image set
-                // just the first part of the image set
-                var fileQuery = Directory.EnumerateFiles(root, "*.*", SearchOption.AllDirectories);
+                Logger.Log($"Scanning images in folder: {root}");
 
-                foreach (var file in fileQuery)
+                if (!Directory.Exists(root))
                 {
+                    Logger.Log($"Image folder does not exist: {root}");
+                    continue;
+                }
 
-                    if (!SupportedExtensions.Contains(Path.GetExtension(file)))
-                        continue;
+                try
+                {
+                    // We have to load all elegible images and then shuffle on them otherwise
+                    // the slideshow only loads the first N folders until the target number of images
+                    // is loaded.  Which means we don't get random display over the entire image set
+                    // just the first part of the image set
+                    var fileQuery = Directory.EnumerateFiles(root, "*.*", SearchOption.AllDirectories);
 
-                    if (PassFilters(file, config))
+                    foreach (var file in fileQuery)
                     {
-                        images.Add(file);
-                        // Log every 100th image to show progress without flooding the log
-                        if (images.Count % 100 == 0)
-                            Logger.Log($"Found {images.Count} eligible images so far...");
+
+                        if (!SupportedExtensions.Contains(Path.GetExtension(file)))
+                            continue;
+
+                        if (PassFilters(file, config))
+                        {
+                            images.Add(file);
+                            // Log every 100th image to show progress without flooding the log
+                            if (images.Count % 100 == 0)
+                                Logger.Log($"Found {images.Count} eligible images so far...");
+                        }
                     }
                 }
+                catch (Exception ex)
+                {
+                    Logger.Log($"Error scanning images in {root}: {ex.Message}");
+                }
             }
-            catch (Exception ex)
-            {
-                Logger.Log($"Error scanning images in {root}: {ex.Message}");
-            }
-
             Logger.Log($"Final eligible images: {images.Count}");
             return images;
         }

@@ -24,11 +24,12 @@ BunyipShow is a **.NET 8.0** photo slideshow screensaver designed to handle exce
 
 ## ⚙️ Configuration
 
-The application looks for a `config.json` file in your AppData folder (`%AppData%\BunyipShow\config.json`).
+The application looks for a `config.json` file in your AppData folder (`%AppData%\BunyipShow\config.json`).  Please take a look at config.example.json for a full example.
+For more information about all the available configuration options look in [Configuration.md](Configuration.md)
 
 ```json
 {
-  "ImageRootFolder": "E:\\Photos\\Archive",
+  "ImageSourceFolder": [ "E:\\Photos\\Archive" ],
   "MaxScannedFiles": 1000,
   "FolderFilters": {
     "IncludeRegex": "Amara|Emily",
