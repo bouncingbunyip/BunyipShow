@@ -90,7 +90,22 @@ namespace BunyipShow.Core
         {
             try
             {
+
                 var fi = new FileInfo(path);
+
+                // Silently ignore Mac metadata (._) and Windows lock files (~$)
+                if (fi.Name.StartsWith("._") || fi.Name.StartsWith("~$"))
+                {
+                    Logger.Log($"Skipping file.  Name starts with ._ or ~$");
+                    return false;
+                }
+
+                // Ignore generic temp files if they aren't already filtered by extension
+                if (fi.Name.EndsWith(".tmp", StringComparison.OrdinalIgnoreCase))
+                {
+                    Logger.Log($"Skipping file.  Name ends with .tmp");
+                    return false;
+                }
 
                 // Filename filters
                 if (!string.IsNullOrEmpty(config.ImageFilters.FilenameIncludeRegex) &&
