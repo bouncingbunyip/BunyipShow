@@ -57,7 +57,7 @@ Consider adding a Regex Timeout. This prevents a "Malicious" folder name from ca
 ---
 - ## Filter out non-images which have supported file extensions. - DONE
    For example, Files that start with '._' should be filtered out and not loaded.
-   Implemented in 460f6e2
+   Implemented in commit 460f6e2
 
 ---
 - ## Possible stutter
@@ -68,9 +68,10 @@ Consider adding a Regex Timeout. This prevents a "Malicious" folder name from ca
 ---
 - ## What happens when two folders have images with the same file names?
 ---
-- ## Multiple image folders
+- ## Multiple image folders - DONE
     Currently we only load iamges from one folder.  Add support to load from multiple folders.
     config.json has something like:
     `"ImageRootFolder": "E:\\path\\to\\images"`
     to something like: 
     `"ImageRootFolder": "C:\\path\\to\\images, C:\\anotherPath\\to\\images"`
+    This was implmented in commit
