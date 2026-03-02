@@ -33,11 +33,13 @@ namespace BunyipShow
                 Logger.SetEnabled(config.EnableLogging);
                 Logger.Log($"Config loaded successfully from {configPath}.");
 
+                ImageLoader.InitializeFilters(config);
+
                 var images = ImageLoader.ScanImages(config);
                 string folderList = string.Join(", ", config.ImageSourceFolder);
                 Logger.Log($"Found {images.Count} images in: {folderList}");
 
-                if (string.Equals(config.DisplayOrder, "random", StringComparison.OrdinalIgnoreCase) && images.Count > 0)
+                if (config.DisplayOrder == DisplayOrder.Random && images.Count > 0)
                 {
                     Logger.Log("Executing Fisher-Yates shuffle for maximum randomization.");
                     var rng = new Random();
@@ -50,6 +52,12 @@ namespace BunyipShow
                         images[k] = images[n];
                         images[n] = value;
                     }
+                }
+                else if (config.DisplayOrder == DisplayOrder.Sequential && images.Count > 0)
+                {
+                    Logger.Log("Sequential mode enabled. Sorting images alphabetically.");
+                    // OrdinalIgnoreCase ensures 'Z' doesn't come before 'a' due to ASCII values
+                    images.Sort(StringComparer.OrdinalIgnoreCase);
                 }
 
                 if (images.Count == 0)

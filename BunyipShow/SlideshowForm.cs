@@ -22,7 +22,7 @@ namespace BunyipShow
 
         // Randomization / sequential
         private int _sequentialIndex = 0;
-        private bool IsRandom => string.Equals(_config.DisplayOrder, "random", StringComparison.OrdinalIgnoreCase);
+        private bool IsRandom => _config.DisplayOrder == DisplayOrder.Random;
         private readonly Random _rng = new Random();
         private readonly List<string> _playList;
 

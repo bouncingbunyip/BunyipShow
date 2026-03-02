@@ -2,6 +2,11 @@ using System.Collections.Generic;
 
 namespace BunyipShow.Core;
 
+public enum DisplayOrder
+{
+    Random,
+    Sequential
+}
 public class Config
 {
     // Image Source Folder(s)
@@ -9,7 +14,7 @@ public class Config
 
     // Display options
     public int DisplayDurationSeconds { get; set; } = 15;
-    public string DisplayOrder { get; set; } = "random"; // "random" or "sequential"
+    public DisplayOrder DisplayOrder { get; set; } = DisplayOrder.Random;
     public string BackgroundColor { get; set; } = "#000000";
     public OverlayConfig Overlay { get; set; } = new();
 
@@ -56,8 +61,8 @@ public class ImageFiltersConfig
     public int MaxHeight { get; set; } = 0;
     public int MinFileSizeKB { get; set; } = 0;
     public int MaxFileSizeKB { get; set; } = 0;
-    public string FilenameIncludeRegex { get; set; } = "";
-    public string FilenameExcludeRegex { get; set; } = "";
+    public string? FilenameIncludeRegex { get; set; } = null;
+    public string? FilenameExcludeRegex { get; set; } = null;
 }
 
 public class FolderFiltersConfig

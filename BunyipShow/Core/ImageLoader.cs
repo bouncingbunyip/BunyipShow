@@ -15,6 +15,11 @@ namespace BunyipShow.Core
 
         private const int ExifOrientationId = 0x0112;
 
+        private static Regex? _includeRegex;
+        private static Regex? _excludeRegex;
+        private static Regex? _folderIncludeRegex;
+        private static Regex? _folderExcludeRegex;
+
         public static PreloadImage? TryLoad(string path, long maxBytes, Action<string> log)
         {
             try
@@ -113,21 +118,18 @@ namespace BunyipShow.Core
                 }
 
                 // Filename filters
-                if (!string.IsNullOrEmpty(config.ImageFilters.FilenameIncludeRegex) &&
-                    !Regex.IsMatch(fi.Name, config.ImageFilters.FilenameIncludeRegex, RegexOptions.IgnoreCase))
+                if (_includeRegex != null && !_includeRegex.IsMatch(fi.Name))
+                    return false;
+
+                if (_excludeRegex != null && _excludeRegex.IsMatch(fi.Name))
                     return false;
 
                 // Folder filters
                 var folderPath = Path.GetDirectoryName(path) ?? "";
-                if (!string.IsNullOrEmpty(config.FolderFilters.IncludeRegex))
-                {
-                    // FIX: Added RegexOptions.IgnoreCase by default for "Windows-style" matching
-                    if (!Regex.IsMatch(folderPath, config.FolderFilters.IncludeRegex, RegexOptions.IgnoreCase))
-                        return false;
-                }
+                if (_folderIncludeRegex != null && !_folderIncludeRegex.IsMatch(folderPath))
+                    return false;
 
-                if (!string.IsNullOrEmpty(config.FolderFilters.ExcludeRegex) &&
-                    Regex.IsMatch(folderPath, config.FolderFilters.ExcludeRegex, RegexOptions.IgnoreCase))
+                if (_folderExcludeRegex != null && _folderExcludeRegex.IsMatch(folderPath))
                     return false;
 
                 return true;
@@ -171,6 +173,30 @@ namespace BunyipShow.Core
             {
                 // ignore bad EXIF metadata
             }
+        }
+        public static void InitializeFilters(Config config)
+        {
+            // Filename Filters
+            if (!string.IsNullOrWhiteSpace(config.ImageFilters.FilenameIncludeRegex))
+                _includeRegex = new Regex(config.ImageFilters.FilenameIncludeRegex, RegexOptions.IgnoreCase | RegexOptions.Compiled);
+            else
+                _includeRegex = null;
+
+            if (!string.IsNullOrWhiteSpace(config.ImageFilters.FilenameExcludeRegex))
+                _excludeRegex = new Regex(config.ImageFilters.FilenameExcludeRegex, RegexOptions.IgnoreCase | RegexOptions.Compiled);
+            else
+                _excludeRegex = null;
+
+            // Folder Filters
+            if (!string.IsNullOrWhiteSpace(config.FolderFilters.IncludeRegex))
+                _folderIncludeRegex = new Regex(config.FolderFilters.IncludeRegex, RegexOptions.IgnoreCase | RegexOptions.Compiled);
+            else
+                _folderIncludeRegex = null;
+
+            if (!string.IsNullOrWhiteSpace(config.FolderFilters.ExcludeRegex))
+                _folderExcludeRegex = new Regex(config.FolderFilters.ExcludeRegex, RegexOptions.IgnoreCase | RegexOptions.Compiled);
+            else
+                _folderExcludeRegex = null;
         }
     }
 }

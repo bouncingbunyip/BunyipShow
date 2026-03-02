@@ -22,7 +22,7 @@
     The Fix: Assign the bitmap directly without cloning. Just don't dispose of the PreloadImage object until the next slide is ready to be shown.
 ---
 - ## Efficient Randomization - DONE
-    Your current shuffling logic in GetNextImagePath uses `.OrderBy(x => _rng.Next())`.
+    The current shuffling logic in GetNextImagePath uses `.OrderBy(x => _rng.Next())`.
     The Issue: This "Linq Shuffle" is easy to write but inefficient for large lists because it creates many temporary objects for the garbage collector to clean up.
     The Better Way: Use a Fisher-Yates Shuffle to reorder your _images list in-place once, then simply iterate through it sequentially.
     This should be complete now.
@@ -74,4 +74,28 @@ Consider adding a Regex Timeout. This prevents a "Malicious" folder name from ca
     `"ImageRootFolder": "E:\\path\\to\\images"`
     to something like: 
     `"ImageRootFolder": "C:\\path\\to\\images, C:\\anotherPath\\to\\images"`
-    This was implmented in commit
+    This was implmented in commit 44f13b0
+
+- ## Image Transitions
+    Implement image transitions.  First one to implement is a cross fade.  After that look at a slide-push, then Ken Burns.
+
+- ## Clock
+    Add an optional clock, can be configured in config.json
+
+- ## Metadata
+    Add optional metadata, path & filename to be displayed with image.
+    When you implement this, consider creating a helper method called RenderImageWithMetadata(string path). This method would:
+    Load the image.
+    If config.Overlay.ShowPath is true, draw the Path.GetFileName(path) onto the bottom of that specific image.
+    Return a single Bitmap that contains both the photo and the text.
+    This way, when you pass that single Bitmap to your transition engine (like a Cross-Fade), the text is "baked in" and moves or fades perfectly with the picture.
+
+- ## Convert magic strings to enum
+    In Config.cs DisplayOrder is a magic string, it should be an enum with the values of "random", "sequential"
+
+- ## Unit tests
+    Build out unit tests to ensure that:
+     * file and folder level regex for include and exclude are working.
+     * Image size filters are working
+     * Image display toggle between random and sequential is working
+     * 
