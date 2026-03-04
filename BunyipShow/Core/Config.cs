@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace BunyipShow.Core;
 
@@ -14,7 +15,9 @@ public class Config
 
     // Display options
     public int DisplayDurationSeconds { get; set; } = 15;
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public DisplayOrder DisplayOrder { get; set; } = DisplayOrder.Random;
+
     public string BackgroundColor { get; set; } = "#000000";
     public OverlayConfig Overlay { get; set; } = new();
 

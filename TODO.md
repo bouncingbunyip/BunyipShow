@@ -98,4 +98,6 @@ Consider adding a Regex Timeout. This prevents a "Malicious" folder name from ca
      * file and folder level regex for include and exclude are working.
      * Image size filters are working
      * Image display toggle between random and sequential is working
-     * 
+
+- ## Config flag log retention
+    Add a flag to config which indicates for how many days logs are retained.  Should be 30 by default.

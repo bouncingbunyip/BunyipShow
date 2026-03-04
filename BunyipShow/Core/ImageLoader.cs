@@ -82,8 +82,9 @@ namespace BunyipShow.Core
                         {
                             images.Add(file);
                             // Log every 100th image to show progress without flooding the log
-                            if (images.Count % 100 == 0)
-                                Logger.Log($"Found {images.Count} eligible images so far...");
+                            // disabled for now.
+                            //if (images.Count % 100 == 0)
+                            //    Logger.Log($"Found {images.Count} eligible images so far...");
                         }
                     }
                 }
